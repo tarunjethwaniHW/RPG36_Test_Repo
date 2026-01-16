@@ -160,8 +160,3 @@ O                         TOT,4 JB  72
 O                         TOT,6 JB  92
 O                         TOT,8 JB 112
 O                         TOT,10JB 132
-**  HDR
-WK CHECK#   DATE       RATE       REG HRS  O.T. HRS   REG PAY  O.T
-. PAY     GROSS   FEDERAL      FICA     LOCAL    DEDUCT       NET
-
-
