@@ -1,0 +1,346 @@
+H    P
+F*   G/L DETAIL FILE ENTER/UPDATE
+F*
+FSCREEN  CP  F    1500            WORKSTN
+FGLCORP  IC  F10241024R 2AI     1 DISK
+FGLMAST  IC  F 300 300R 8AI     1 DISK
+FGLTRAN  UC  F  64  64R 6AI     1 DISK                      A
+FGLTRANX ID  F3200  64L 6AI     1 DISK
+E                    C1         11  4 0
+E                    C2         11  6 0
+E                    C3         11  5
+E                    C4         11  6 0
+E                    C5         11 10
+E                    C6         11 24
+E                    C7         11 11 2
+ISCREEN  NS  01   1 CS   2 C0   3 C1
+I                                        4   50GLCO
+I        NS  02   1 CS   2 C0   3 C2
+I                                        4   70SEQ#
+I                                        8  130DATE
+I                                        8   90MM
+I                                       10  110DD
+I                                       12  130YY
+I                                       14  18 REF#
+I                                       19  240ACCT#
+I                                       25  352AMT
+I                                       36  59 DESC
+I                                       60  60 DEL
+I                                       19  60
+I        NS  03   1 CS   2 C0   3 C3
+I                                        4   70LINE
+I        NS  04
+IGLCORP  NS
+I                                        3  42 CNAME
+IGLMAST  NS
+I                                        9  40 GLDESC
+I                                      300 300 GLDEL
+IGLTRAN  NS
+I                                        1   20GCO
+I                                        3   60SEQ#
+I                                        7  120ACCT#
+I                                       13  180DATE
+I                                       13  140MM
+I                                       15  160DD
+I                                       17  180YY
+I                                       19  23 REF#
+I                                       24  47 DESC
+I                                    P  48  532AMT
+I                                       64  64 DEL
+IGLTRANX NS
+I                                        1   20GCO
+I                                        3   60SEQ#
+I                                        7  120ACCT#
+I                                       13  180DATE
+I                                       13  140MM
+I                                       15  160DD
+I                                       17  180YY
+I                                       19  23 REF#
+I                                       24  47 DESC
+I                                    P  48  532AMT
+I                                       64  64 DEL
+I           UDS
+I                                        1   1 FNAME
+I                                        2   30CO
+I                                        4  11 USER
+I                                       12  14 BLANK
+I                                       15  16 WSID
+I                                        4  16 HEADER
+I                                       17  200TIMEX
+I                                       21  260DDATE
+I                                      101 150 HDR1
+I                                      151 200 HDR2
+C   KG                GOTO END
+C                     SETOF                     504955
+C                     SETOF                     303132
+C                     SETOF                     333435
+C                     TIME           TIME6   60
+C                     MOVELTIME6     TIMEX   40
+C   KA
+COR 04                EXSR START
+C   KA
+COR 04                GOTO END
+C*
+C   KC                Z-ADD0
+C   KC                SETON                     23
+C   KC
+C   KC                SETOF                     23
+C   KC                GOTO END
+C*
+C   KE                Z-ADDSEQ       SEQ#
+C   KE                Z-ADD0
+C   KE                MOVE *BLANKS   REF#
+C   KE                SETON
+C   KE
+C   KE                SETOF
+C   KE                GOTO END
+C*
+C   01                EXSR SCRN01
+C   02                EXSR SCRN02
+C   03                EXSR SCRN03
+C   02N50             EXSR WRITE
+C           END       TAG
+C******************************************
+CSR         START     BEGSR
+CSR                   SETON                     20
+CSR                   EXCPT
+CSR                   SETOF                     20
+CSR                   Z-ADD0         BAL
+CSR                   EXSR
+CSR                   ENDSR
+C******************************************
+CSR         SCRN01    BEGSR
+CSR         GLCO      CHAINGLCORP               30
+CSR 30                SETON                     5020
+CSR 50                GOTO END01
+CSR                   MOVE *BLANKS   KEY6    60
+CSR                   MOVELGLCO      KEY8    80
+CSR                   MOVELGLCO      KEY6    60
+CSR                   Z-ADD0         SEQ
+CSR                   SETON                     65
+CSR         KEY6      SETLLGLTRANX
+CSR         LOOP      TAG
+CSR                   SETOF                     88
+CSR                   READ GLTRANX                  88
+CSRN88      GLCO      COMP GCO
+CSRN88      DEL       COMP 'D'                      13
+CSRN88                EXSR
+CSRN88N13             ADD  AMT       BAL    112
+CSRN88                Z-ADDSEQ#      SEQ     40
+CSRN88                GOTO LOOP
+CSR                   ADD  1         SEQ
+CSR                   Z-ADDSEQ       SEQ#
+CSR                   MOVELGLCO      KEY8    80
+CSR                   MOVELGLCO      KEY6    60
+CSR                   MOVE *BLANKS
+CSR                   MOVE *BLANKS   REF#
+CSR                   MOVE *BLANKS
+CSR                   MOVE *BLANKS
+CSR                   Z-ADD0
+CSR                   SETON                     2160
+CSR         END01     TAG
+CSR                   EXCPT
+CSR                   SETOF                     202165
+CSR                   ENDSR
+C******************************************
+CSR         SCRN02    BEGSR                           ENTRY
+CSR         SEQ#      COMP SEQ                  3166
+CSR 31                SETON
+CSR 31                GOTO
+CSR                   MOVE SEQ#      KEY6
+CSR 22                GOTO
+CSR         KEY6      CHAINGLTRAN               21
+CSRN21                SETON                     222160
+CSR 22                MOVE ACCT#     KEY8
+CSR 22      KEY8      CHAINGLMAST               12
+CSR 22                EXSR
+CSR 22      DEL       COMP 'D'                      13
+CSR 22   N13          SUB  AMT       BAL
+CSR 22                GOTO
+CSR         ERRCK     TAG
+CSR                   SETOF
+CSR         MM        COMP 0                        32
+CSRN32      MM        COMP 12                   32
+CSRN32      DD        COMP 0                        32
+CSRN32      DD        COMP 31                   32
+CSR 32                SETON                     60
+CSR                   MOVE ACCT#     KEY8
+CSR         ACCT#     COMP 0                        61
+CSRN61      KEY8      CHAINGLMAST               33
+CSRN61N33   GLDEL     COMP 'D'                      33
+CSR         AMT       COMP 0                        34
+CSR
+COR 34                GOTO
+CSR         DEL       COMP ' '                  5555
+CSR    55   DEL       COMP 'D'                  5555
+CSR 32
+COR 33
+COR 34
+COR 55                SETON                     49
+CSRN49                SETOF
+CSRN49                GOTO
+CSR         ERROR2    TAG
+CSR                   SETON
+CSR
+CSR                   SETOF                     21
+CSR         END02     ENDSR
+C************************************
+C***  INQUIRY SCREEN **
+C***********************************
+CSR         SCRN03    BEGSR
+CSR                   Z-ADD1         Z       20
+CSR                   SETON                     65
+CSR         LINE      COMP 0                        70
+CSRN70                MOVE LINE
+CSRN70      KEY6      SETLLGLTRANX
+CSRN70                EXSR
+CSR         RLOOP     TAG
+CSR                   SETOF                     88
+CSR                   READ GLTRANX                  88
+CSRN88                EXSR
+CSRN88      Z         COMP 11                       11
+CSRN11N88             ADD  1         Z
+CSRN11N88             GOTO
+CSR                   SETON                     23
+CSR                   Z-ADD0
+CSR                   EXCPT
+CSR                   SETOF                     2365
+CSR                   ENDSR
+C******************************************
+CSR         WRITE     BEGSR
+CSR         DEL       COMP 'D'                      13
+CSRN13                ADD  AMT       BAL
+CSRN22                SETON                     25
+CSR 22                SETON                     26
+CSR                   EXCPT
+CSR                   EXSR BUMP
+CSR 25                SETON                     61
+CSR 26                SETON                     60
+CSR 25      SEQ       COMP SEQ#                   11
+CSR 25N11             ADD  1         SEQ
+CSR                   Z-ADDSEQ       SEQ#
+CSR                   SETOF                     252622
+CSR 60                MOVE *BLANKS   REF#
+CSR 60                MOVE *BLANKS
+CSR 60                Z-ADD0
+CSR                   SETON                     21
+CSR                   EXCPT
+CSR                   SETOF                     21
+CSR                   ENDSR
+C***** BUMP ARRAY ********************
+CSR         BUMP      BEGSR
+CSR                   Z-ADD1         X       20
+CSR                   Z-ADD2         Y       20
+CSR         BLOOP     TAG
+CSR                   Z-ADDC1,Y      C1,X
+CSR                   Z-ADDC2,Y      C2,X
+CSR                   Z-ADDC7,Y      C7,X
+CSR                   Z-ADDC4,Y      C4,X
+CSR                   MOVE C3,Y      C3,X
+CSR                   MOVE C5,Y      C5,X
+CSR                   MOVE C6,Y      C6,X
+CSR         X         COMP 10                       11
+CSRN11                ADD  1         X
+CSRN11                ADD  1         Y
+CSRN11                GOTO BLOOP
+CSR                   Z-ADDSEQ#      C1,11
+CSR                   Z-ADDDATE      C2,11
+CSR                   MOVE REF#      C3,11
+CSR                   Z-ADDACCT#     C4,11
+CSR 65                MOVE ACCT#
+CSR 65      KEY8      CHAINGLMAST               70
+CSR                   MOVELGLDESC    C5,11
+CSR                   MOVELDESC      C6,11
+CSR 13                MOVE ' DELETED'C6,11
+CSR                   Z-ADDAMT       C7,11
+CSR                   MOVE *BLANKS   DATA
+CSR                   MOVE *BLANKS
+CSR                   ENDSR
+C****************************************
+CSR         LOOKUP
+CSR                   Z-ADD1         X
+CSR         SEQ#      LOKUPC1,X                     11
+CSR 11                Z-ADD0         C1,X
+CSR 11                Z-ADD0         C2,X
+CSR 11                Z-ADD0         C4,X
+CSR 11                Z-ADD0         C7,X
+CSR 11                MOVE *BLANKS   C3,X
+CSR 11                MOVE *BLANKS   C5,X
+CSR 11                MOVE *BLANKS   C6,X
+CSR
+C******************************************
+CSR         CLEAR
+CSR                   Z-ADD0         C1
+CSR                   Z-ADD0         C2
+CSR                   Z-ADD0         C4
+CSR                   Z-ADD0         C7
+CSR                   MOVE *BLANKS   C3
+CSR                   MOVE *BLANKS   C5
+CSR                   MOVE *BLANKS   C6
+CSR
+OSCREEN  E        20
+O                                   K8 'GL004001'
+O                         UDATE Y    8
+O                         HDR1      58
+O                         TIMEX     63 '  .  '
+O                         HDR2     113
+O                    50   GLCO     115
+O        E        21
+O                                   K8 'GL004002'
+O                         UDATE Y    8
+O                         HDR1      58
+O                         TIMEX     63 '  .  '
+O                         HDR2     113
+O                         GLCO     115
+O                         CNAME    155
+O                         BAL   J  170
+O                         C1       214 '    '
+O                         C2       302 '  /  /  '
+O                         C3       357
+O                         C4       434 '    -  '
+O                         C5       544
+O                         C6       808
+O                         C7       962 '      ,   .  -'
+O                         SEQ#     966
+O                         DATE  Z  972
+O                         REF#     977
+O                         ACCT#    983
+O                         AMT      994
+O                         DESC    1018
+O                         DEL     1019
+O                N22      DATA    1019
+O                         DESC
+O                         GLDESC  1051
+O        E        23
+O                                   K8 'GL004003'
+O                         UDATE Y    8
+O                         HDR1      58
+O                         TIMEX     63 '  .  '
+O                         HDR2     113
+O                         GLCO     115
+O                         CNAME    155
+O                         BAL   J  170
+O                         C1       214 '    '
+O                         C2       302 '  /  /  '
+O                         C3       357
+O                         C4       434 '    -  '
+O                         C5       544
+O                         C6       808
+O                         C7       962 '      ,   .  -'
+O                         LINE  Z  966
+O        DR       KG
+OGLTRAN  EADD     25
+O                         GLCO       2
+O                         SEQ#       6
+O                         ACCT#     12
+O                         DATE      18
+O                         REF#      23
+O                         DESC      47
+O                         AMT       53P
+O        E        26
+O                         ACCT#     12
+O                         DATE      18
+O                         REF#      23
+O                         DESC      47
+O                         AMT       53P
+O                         DEL       64
