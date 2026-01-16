@@ -106,7 +106,7 @@ CSR                   SETON                     20
 CSR                   EXCPT
 CSR                   SETOF                     20
 CSR                   Z-ADD0         BAL
-CSR                   EXSR
+CSR                   EXSR   XGE90
 CSR                   ENDSR
 C******************************************
 CSR         SCRN01    BEGSR
@@ -124,7 +124,7 @@ CSR                   SETOF                     88
 CSR                   READ GLTRANX                  88
 CSRN88      GLCO      COMP GCO
 CSRN88      DEL       COMP 'D'                      13
-CSRN88                EXSR
+CSRN88                EXSR    XGE90
 CSRN88N13             ADD  AMT       BAL    112
 CSRN88                Z-ADDSEQ#      SEQ     40
 CSRN88                GOTO LOOP
@@ -153,7 +153,7 @@ CSR         KEY6      CHAINGLTRAN               21
 CSRN21                SETON                     222160
 CSR 22                MOVE ACCT#     KEY8
 CSR 22      KEY8      CHAINGLMAST               12
-CSR 22                EXSR
+CSR 22                EXSR    XGE90
 CSR 22      DEL       COMP 'D'                      13
 CSR 22   N13          SUB  AMT       BAL
 CSR 22                GOTO
@@ -193,7 +193,7 @@ CSR                   SETON                     65
 CSR         LINE      COMP 0                        70
 CSRN70                MOVE LINE
 CSRN70      KEY6      SETLLGLTRANX
-CSRN70                EXSR
+CSRN70                EXSR      XGE90
 CSR         RLOOP     TAG
 CSR                   SETOF                     88
 CSR                   READ GLTRANX                  88
@@ -343,4 +343,5 @@ O                         DATE      18
 O                         REF#      23
 O                         DESC      47
 O                         AMT       53P
+
 O                         DEL       64
