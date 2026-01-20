@@ -134,16 +134,16 @@ I                                      627 722 DSUT
 ICORP    NS
 I                                        3  42 CONAME
 I********* P/R FILE INFORMATION **********************
-I                                      512 523 CFID                  PR0120FEDERAL ID
-I                                      524 535 CSID                  PR0120STATE ID
+I                                      512 523 CFID
+I                                      524 535 CSID
 I                                    P 536 5402CFUTAL
 I                                    P 541 5452CSUTAL
-I                                    P 546 5502CDISAL                PR0120DISABILITY
-I                                    P 551 5534CFUTA                 PR0120FUTA %
-I                                    P 554 5564CSUTA                 PR0120SUTA %
-I                                    P 557 5594CDISA                 PR0120DISABILITY %
+I                                    P 546 5502CDISAL                
+I                                    P 551 5534CFUTA                 
+I                                    P 554 5564CSUTA                 
+I                                    P 557 5594CDISA                 
 I                                      560 560 CACCT
-I                                      561 648 CGL                   PR0120G/L
+I                                      561 648 CGL                   
 I                                      561 5620BGL
 I                                      561 5680CPBANK
 I                                      569 5760CPFED
@@ -1061,4 +1061,5 @@ O                         CHECK1    25
 O                                   26 '-'
 O                         CHECK     32
 O                         GLAMT  B  49P
+
 **    HDR
