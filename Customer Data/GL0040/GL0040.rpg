@@ -100,6 +100,18 @@ C   02                EXSR SCRN02
 C   03                EXSR SCRN03
 C   02N50             EXSR WRITE
 C           END       TAG
+C                   SELECT                               
+C     CODE          WHENEQ    'PRINT'                    
+C                   EXSR      PRINT_ROUTINE              
+C     CODE          WHENEQ    'SAVE'                     
+C                   EXSR      SAVE_ROUTINE               
+C     CODE          WHENEQ    'DELETE'                   
+C                   EXSR      DELETE_ROUTINE             
+C     CODE          WHENEQ    'QUIT'                     
+C                   EXSR      QUIT_ROUTINE               
+C                   OTHER
+C                   EXSR      RAISE_ERROR 
+C                   ENDSL
 C******************************************
 CSR         START     BEGSR
 CSR                   SETON                     20
@@ -345,3 +357,4 @@ O                         DESC      47
 O                         AMT       53P
 
 O                         DEL       64
+
