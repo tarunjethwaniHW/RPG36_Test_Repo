@@ -50,6 +50,18 @@ C   03 71             SETON                     U3
 C   03N71             SETON                     U4
 C*
 C           END       TAG
+C                   SELECT                               
+C     S_OPT         WHENEQ    '1'                        
+C                   EXSR      PR0050                    
+C     S_OPT         WHENEQ    '2'                        
+C                   EXSR      PR0010                   
+C     S_OPT         WHENEQ    '4'                        
+C                   EXSR      PR29087                    
+C     S_OPT         WHENEQ    '5'                        
+C                   EXSR      XRPM                    
+C                   OTHER
+C                   EXSR      TOPLE                   
+C                   ENDSL
 OAPOPENC D        01 71
 O                         REC01    128
 O        D        01N71
@@ -58,4 +70,5 @@ OAPMONTHCD        03 71
 O                         REC03    128
 O        D        03N71
 O                         REC03    128
+
 **  MSG
