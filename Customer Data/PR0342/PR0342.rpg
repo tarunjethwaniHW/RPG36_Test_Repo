@@ -107,6 +107,29 @@ C   OF                SETON                     98
 C                     EXCPT
 C                     SETOF                     7298
 C*
+C           *ENTRY    PLIST
+C                     PARM           DUMMY     1
+C           EXFMT     LOGINREC
+C                     IF   *IN03 = '1'
+C                     SETON                     LR
+C                     RETURN
+C                     ENDIF
+C                     CHAIN LOGINID  LOGINPF  90
+C   90                GOTO      BADLOG
+C                     IF   PASSWORD <> LOGPASS
+C                     GOTO      BADLOG
+C                     ENDIF
+C                     IF   USERTYPE = 'EMPLOYEE'
+C                     CALL 'EMPMENU36'
+C                     ENDIF
+C                     IF   USERTYPE = 'ADMIN'
+C                     CALL 'ADMINMN'
+C                     ENDIF
+C                     IF   USERTYPE = 'MANAGER'
+C                     CALL 'MGRMENU'
+C                     ENDIF
+C                     SETON                     LR
+C                     SETON                     LR
 CL2
 OPR0342  E  102   98
 O                                    4 'DATE'
@@ -160,3 +183,4 @@ O                         TOT,4 JB  72
 O                         TOT,6 JB  92
 O                         TOT,8 JB 112
 O                         TOT,10JB 132
+
