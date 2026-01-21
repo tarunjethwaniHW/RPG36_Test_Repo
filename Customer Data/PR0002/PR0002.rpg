@@ -104,6 +104,19 @@ CSR                   SETOF                     2425
 CSR                   EXSR START
 CSR                   ENDSR
 C*
+C           CUSTTYPE      IFEQ      'B2B'              
+C                         IFGT      ORDVAL, 1000       
+C           DISC          EVAL      15                  
+C                         ELSE                         
+C           DISC          EVAL      10                 
+C                         ENDIF                        
+C                         ELSE                          
+C                         IFGT      ORDVAL, 500       
+C           DISC          EVAL      7                  
+C                         ELSE
+C           DISC          EVAL      0                   
+C                         ENDIF
+C                         ENDIF    
 OSCREEN  E        21
 O                                   K8 'PR000201'
 O                         UDATE Y    8
@@ -155,3 +168,4 @@ O*
 O*  AVOID SECTOR LOCKOUT
 O*
 O        E        19
+
