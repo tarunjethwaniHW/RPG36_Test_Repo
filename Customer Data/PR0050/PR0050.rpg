@@ -250,47 +250,6 @@ CSRN11                GOTO WLOOP
 CSR                   ENDSR
 C*
 C*
-OSCREEN  E        21
-O                                   K8 'PR005001'
-O                         UDATE Y    8
-O                         HDR1      58
-O                         TIMEX     63 '  .  '
-O                         HDR2     113
-O                         PEDATE   119
-O        E        18
-O                                   K8 'PR005002'
-O                         UDATE Y    8
-O                         HDR1      58
-O                         TIMEX     63 '  .  '
-O                         HDR2     113
-O                         CORP     115
-O                         LNAME    155
-O                         C1       431
-O                         C2       479 '    '
-O                         C3       527 '    '
-O                         C4       575 '    '
-O                         C5       623 '    '
-O                         C6       671 '    '
-O                         C7       719 '    '
-O                         C8       935
-O                 U5               946 '9999 NO PAY'
-O        E        19
-O                                   K8 'PR005003'
-O                         UDATE Y    8
-O                         HDR1      58
-O                         TIMEX     63 '  .  '
-O                         HDR2     113
-O                         CORP     115
-O                         LNAME    155
-O                         C1       431
-O                         C2       479 '    '
-O                         C3       527 '    '
-O                         C4       575 '    '
-O                         C5       623 '    '
-O                         C6       671 '    '
-O                         C7       719 '    '
-O                         C8       935
-O                 U5               946 '9999 NO PAY'
 OPRTRAN  EADD     24
 O                         KEY8       8
 O                         PEDATE    14
