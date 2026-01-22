@@ -13,60 +13,6 @@ FGLMAST  IC  F 300 300R 8AI     1 DISK
 FPRTGL   O   F 640  64            DISK                      A
 FPRTTOT  O   F 256 256            DISK                      A
 FPR0120  O   F 132 132     OF     PRINTER
-E                    HDR     1  16 66
-E                    CD          8  2 0
-E                    HR          8  5 2
-E                    RATE        8  9 4
-E                    EXT         8  9 2
-E                    DEP         8  4 0
-E                    DCD         8  2 0
-E                    DAMT        8  7 2
-E                    TDED        8  9 2
-E                    DD      1  15 16
-E                    DDEP       12  4 0
-E                    DDES       12 24
-E                    DEAR       12  8 0
-E                    DFIC       12  8 0
-E                    DFUT       12  8 0
-E                    DSUT       12  8 0
-E                    CGL        11  8 0
-E                    S1         12  8 2
-E                    S2         12  8 2
-E                    S3         12  8 2
-E                    S4         12  8 2
-E                    S5         12  8 2
-E                    S6         12  8 2
-E                    S7         12  8 2
-E                    S8         12  8 2
-E                    S9         12  8 2
-E                    TH         12  8 2
-E                    GH         12  8 2
-E                    TE         12  8 2
-E                    GE         12  8 2
-E                    TD         13  8 2
-E                    GD         13  8 2
-E                    TDD        12  8 2
-E                    GDD        12  8 2
-E***************** EARNINGS TYPES
-E                    PDES       12 16
-E                    PRT        12  5 2
-E                    PDDE       12 16
-E                    TY         12  1 0
-E                    GLDED      12  8 0
-E*************** EMPLOYEE DEDUCTIONS
-E                    ECD         8  2 0
-E                    EF          8  2 0
-E                    EDED        8  7 2
-E                    EBAL        8  7 2
-E                    EYTD       18  9 2
-E*************** INTERCOMPANY ********
-E                    IGL        11  8 0
-E                    ID1        12  8 2
-E                    ID2        12  8 2
-E                    ID4        12  8 2
-E                    ID5        12  8 2
-E                    ID9        12  8 2
-E                    IDD        12  8 2
 IPRTRAN  NS  01 256NCD
 I                                        1   80EMP
 I                                        1   20CORP  L2
@@ -198,132 +144,26 @@ C   L1      LKEY      CHAINPRLOC                20
 C   L1      CO        CHAINPREARN               11
 C   L1      CO        CHAINPRDEPT               11
 C   L1      00        CHAINPRTAX                11
-C   L1      BANK      COMP 2                        11
-C   L1 11             MOVE 02        DFIC,1
-C   L1 11             MOVE 02        DFUT,1
-C   L1 11             MOVE 02        DSUT,1
-C   L1      BANK      COMP 4                        11
-C   L1 11             MOVE 04        DFIC,1
-C   L1 11             MOVE 04        DFUT,1
-C   L1 11             MOVE 04        DSUT,1
-C   L1      BANK      COMP 5                        11
-C   L1 11             MOVE 05        DFIC,1
-C   L1 11             MOVE 05        DFUT,1
-C   L1 11             MOVE 05        DSUT,1
 C   L1                SETON                     98
 C   L1                MOVE DFIC,1    XDEPT   20
 C   02                GOTO END
-E*************** INTERCOMPANY ********
-C           EMPXXX    COMP 2                      11
-C      11             Z-ADD01        IN      20
-C           EMPXXX    COMP 3                        11
-C      11             Z-ADD02        IN
-C           EMPXXX    COMP 4                        11
-C      11             MOVE 04        IN
-C           EMPXXX    COMP 5                        11
-C      11             MOVE 05        IN
-C           EMPXXX    COMP 9                        11
-C      11             MOVE 09        IN
-E******************************8******
 C*
 C  N41                ADD  1         CHECK
 C  N41                ADD  1         TD,8
 C           EMP       CHAINPRMAST               11
-C           ESAL      COMP 0                    42
-C           ESEX      COMP 'F'                      11
-C   11                ADD  1         TD,9
-C  N11                ADD  1         TD,10
-C                     Z-ADD1         X
-C                     Z-ADD0         TIPS    92
-C           RLOOP     TAG
-C                     Z-ADDCD,X      X2
-C           X2        COMP 0                        11
-C  N11      TY,X2     COMP 6                        12
-C  N11 12             ADD  EXT,X     TIPS
-C           X         COMP 8                        11
 C  N11                ADD  1         X
-C  N11                GOTO RLOOP
 C                     XFOOTEXT       GROSS   82
 C                     SUB  TIPS      GROSS
-E*************** INTERCOMPANY ********
-C           IN        COMP 1                        11
-C   11                ADD  GROSS     IG1     92
-C           IN        COMP 2                        11
-C   11                ADD  GROSS     IG2     92
-C           IN        COMP 4                        11
-C   11                ADD  GROSS     IG4     92
-C           IN        COMP 5                        11
-C   11                ADD  GROSS     IG5     92
-C           IN        COMP 9                        11
-C   11                ADD  GROSS     IG9     92
-E*************************************
-C                     Z-ADDTDED,6    SEC125  92
-C                     Z-ADD0         TDED,6
-C                     Z-ADDTDED,7    HSA     92
-C                     Z-ADD0         TDED,7
 C           GROSS     ADD  TDED,6    TAX
 C                     ADD  TDED,7    TAX     92
 C                     SUB  SEC125    TAX
 C                     SUB  HSA       TAX
 C                     Z-ADDTAX       TAX1    92
-C                     Z-ADDTAX       TAX2    92
-C                     Z-ADDTAX       XTAX2   92
 C           EYTD,5    SUB  EYTD,12   WORK    92
 C                     SUB  EYTD,11   WORK
-C           WORK      COMP CFUTAL               11  11
-C           WORK      ADD  TAX       WORK1   92
-C   11      WORK1     COMP CFUTAL               11  11
 C   11                Z-ADD0         TAX
 C   11                GOTO CSUTA
 C                     SUB  CFUTAL    WORK1
-C           WORK1     COMP 0                      11
-C  N11      TAX       SUB  WORK1     TAX
-C                     ADD  TAX       TD,11
-C           CSUTA     TAG
-C           WORK      COMP CSUTAL               11  11
-C           WORK      ADD  TAX1      WORK1   92
-C   11      WORK1     COMP CSUTAL               11  11
-C   11                Z-ADD0         TAX1
-C   11                GOTO CONT
-C                     SUB  CSUTAL    WORK1
-C           WORK1     COMP 0                      11
-C  N11      TAX1      SUB  WORK1     TAX1
-C                     ADD  TAX1      TD,12
-C           CONT      TAG
-C           WORK      COMP TFICAL               11  11
-C           WORK      ADD  TAX2      WORK1   92
-C   11      WORK1     COMP TFICAL               11  11
-C   11                Z-ADD0         TAX2
-C   11                GOTO FICA2
-C                     SUB  TFICAL    WORK1
-C           WORK1     COMP 0                      11
-C  N11      TAX2      SUB  WORK1     TAX2
-C           TAX2      MULT TFICA3    TAX2    92H
-C           FICA2     TAG
-C           WORK      COMP TFICL2               11  11
-C           WORK      ADD  XTAX2     WORK1   92
-C   11      WORK1     COMP TFICL2               11  11
-C   11                Z-ADD0         TAX2
-C   11                GOTO FIGERN
-C                     SUB  TFICL2    WORK1
-C           WORK1     COMP 0                      11
-C  N11      XTAX2     SUB  WORK1     XTAX2
-C           XTAX2     MULT TFICA2    XTAX2   92H
-C                     ADD  XTAX2
-C           FIGERN    TAG
-C                     Z-ADD0         X
-C                     Z-ADD0         D
-C                     EXSR PRINT1
-C                     Z-ADD1         X2
-C           EDEPT     LOKUPDDEP,X2                  11
-C  N11                Z-ADD12        X2
-C                     ADD  TDED,6    S6,X2
-C                     ADD  TDED,7    S6,X2
-C                     ADD  TAX2      S7,X2
-C           TAX       MULT CFUTA     TAX       H
-C           TAX1      MULT CSUTA     TAX1      H
-C                     ADD  TAX       S8,X2
-C                     ADD  TAX1      S9,X2
 E*************** INTERCOMPANY ********
 C           IN        COMP 1                        11
 C   11                ADD  TAX2      IG1     92
@@ -408,15 +248,6 @@ CL1                   ADD  1         X
 CL1         X         COMP 13                       11
 CL1N11                GOTO TTLOOP
 CL1                   SETON                     9891
-CL1                   XFOOTS1        T1      82
-CL1                   XFOOTS2        T2      82
-CL1                   XFOOTS3        T3      82
-CL1                   XFOOTS4        T4      82
-CL1                   XFOOTS5        T5      82
-CL1                   XFOOTS6        T6      82
-CL1                   XFOOTS7        T7      82
-CL1                   XFOOTS8        T8      82
-CL1                   XFOOTS9        T9      82
 CL1         TD,3      ADD  T7        TD,13
 CL1                   ADD  TD,13     GD,13
 CL1                   Z-ADD1         X
@@ -577,15 +408,6 @@ CL1                   EXSR GLSUB
 CL1                   Z-SUBS9,1      GLAMT
 CL1                   Z-ADDCGL,5     GL
 CL1                   EXSR GLSUB
-CL1                   ADD  S8,1
-CL1                   ADD  S9,1
-CL1         CORP      COMP 13                       14
-CL1 14                Z-ADDCGL,9     GL
-CL1 14                Z-ADDFEDFIC    GLAMT
-CL1 14                EXSR GLSUB
-CL1 14                Z-ADDCGL,11    GL
-CL1 14                Z-SUBFEDFIC    GLAMT
-CL1 14                EXSR GLSUB
 E*************** INTERCOMPANY BANK ***********
 CL1         CORP      COMP 01                       11
 CL1N11      CORP      COMP 30                       11
@@ -630,23 +452,14 @@ CL1                   Z-SUBIG9       GLAMT
 CL1                   Z-ADDINTER     GL
 CL1                   MOVELCO        GL
 CL1                   EXSR GLSUB
-CL1                   Z-ADDWORK1     GLAMT
-CL1                   Z-ADDINTER     GL
 CL1                   MOVELCO        GL
 CL1                   EXSR GLSUB
 E*************** INTERCOMPANY BANK ***********
 CL1                   EXCPTLINE1
 CL1                   Z-SUBIG1       GLAMT
 CL1                   SUB  IG2       GLAMT
-CL1                   SUB  IG4       GLAMT
-CL1                   SUB  IG5       GLAMT
-CL1                   ADD  WORK1     GLAMT
 CL1                   XFOOTID9       WORK
-CL1                   SUB  WORK      GLAMT
-C*1                   ADD  WORK      IG9
 CL1         CORP      COMP 05                       11
-CL1 11                Z-ADDIGL,10    GL
-CL1N11                Z-ADDIGL,08    GL
 CL1                   EXSR GLSUB
 CL1                   Z-ADDIG1       GLAMT
 CL1                   Z-ADDINTER     GL
@@ -725,18 +538,6 @@ CL1                   Z-SUBID9,X     GLAMT
 CL1                   EXSR GLSUB
 CL1                   END
 CL1         ENDINT    TAG
-CL1                   Z-ADD0         ID1
-CL1                   Z-ADD0         ID2
-CL1                   Z-ADD0         ID4
-CL1                   Z-ADD0         ID5
-CL1                   Z-ADD0         ID9
-CL1                   Z-ADD0         TD
-CL1                   Z-ADD0         S5
-CL1                   Z-ADD0         S7
-CL1                   Z-ADD0         S8
-CL1                   Z-ADD0         S9
-CL1                   Z-ADD0         TDD
-CL1                   Z-ADD0         TNET
 CL1                   SETON                     62
 CL1         T1        ADD  T2        WORK1      6363
 CL1                   EXCPT
@@ -781,68 +582,17 @@ C*RN11                GOTO GLOOP4
 C*R                   SETON                     85
 C*R                   EXCPT
 C*R                   SETOF                     85
-C********   EARNINGS / DEDUCTION PRINT
-CSR         PRINT1    BEGSR
-CSR                   SETOF                     71
-CSR         PLOOP     TAG
-CSR                   SETOF                     121314
-CSR         X         COMP 8                        11
-CSRN11                ADD  1         X       20
-CSRN11      CD,X      COMP 0                    12
-CSRN11 12   EXT,X     COMP 0                    1212
-CSRN11N12             GOTO PLOOP
-CSR 12                Z-ADDRATE,X    AMT1    74
-CSR 12                Z-ADDEXT,X     AMT2    82
-CSR 12                Z-ADDCD,X      X2      20
-CSR 12                ADD  HR,X      TH,X2
-CSR 12                ADD  EXT,X     TE,X2
-CSR 12      PRT,X2    COMP 1.00                 14
-CSR 12      TY,X2     COMP 6                        15
-CSR 12                Z-ADD1         X2
-CSR 12      DEP,X     LOKUPDDEP,X2                  11
-CSR 12N14N15          ADD  HR,X      S1,X2
-CSR 12N14N15          ADD  EXT,X     S3,X2
-CSR 12 14N15          ADD  HR,X      S2,X2
-CSR 12 14N15          ADD  EXT,X     S4,X2
-CSR 12N15             ADD  EXT,X     S5,X2
-CSR         DLOOP     TAG
-CSR         D         COMP 8                        11
-CSRN11                ADD  1         D
-CSRN11      DCD,D     COMP 8                        33
-CSRN11      DCD,D     COMP 0                    13
-CSRN11N13   DAMT,D    COMP 0                    1313
-CSRN11 13             Z-ADDDCD,D     X3      20
-CSRN11 13             ADD  DAMT,D    TDD,X3
-CSRN11 13             ADD  DAMT,D    IDD,X3
-CSRN11N13             GOTO DLOOP
-CSR                   Z-ADD0         IDD,1
-CSR         IN        COMP 1                        11
-CSR 11                ADD  IDD       ID1
-CSR         IN        COMP 2                        11
-CSR 11                ADD  IDD       ID2
-CSR         IN        COMP 4                        11
-CSR 11                ADD  IDD       ID4
-CSR         IN        COMP 5                        11
-CSR 11                ADD  IDD       ID5
-CSR         IN        COMP 9                        11
-CSR 11                ADD  IDD       ID9
-CSR                   Z-ADD0         IDD
-CSR                   ENDSR
 C***** MEALS AND TIPS
 CSR         MLTIPS    BEGSR
 CSR         TDED,6    COMP 0                        11
 CSR 11                GOTO TTIPS
-CSR                   Z-ADD1         X
 CSR         5         LOKUPTY,X                     11
-CSR                   Z-ADDTDED,6    AMT2
-CSR                   Z-ADDTDED,6    AMT7
 CSR                   SETON                     72
 CSR                   EXCPT
 CSR                   SETOF                     72
 CSR         TTIPS     TAG
 CSR         TDED,7    COMP 0                        11
 CSR 11                GOTO ETIPS
-CSR                   Z-ADD1         X
 CSR         7         LOKUPTY,X                     11
 CSR                   Z-ADDTDED,7    AMT2
 CSR                   Z-ADDTDED,7    AMT7
@@ -884,167 +634,6 @@ O                         PAGE  Z  132
 O        E  1     98
 O                                    4 'TIME'
 O                         TIMEX     13 '  :  '
-O                                   67 'PAYROLL CHECK REGISTER'
-O                                  132 'PROGRAM - PR0120'
-O        E  2     98
-O                         HEADER    13
-O                                   60 'PAY PERIOD CREW'
-O                         PEDATEY   69
-O                                   77 'SALARY'
-O                         PEDAT2Y   86
-O                                   99 'CHECK DATE'
-O                         CKDATEY  109
-O        E  1     98N60
-O                         HDR,01    66
-O                         HDR,02   132
-O                 91      HDR,05    66
-O                 91      HDR,06   132
-O        E  2     98N60
-O                         HDR,03    66
-O                         HDR,04   132
-O                 91      HDR,07    66
-O                 91      HDR,08   132
-O        E  1     70
-O                N41      CHECK      6
-O                 41      TCHECK     6
-O                         ENUM      13
-O                         ENAME     34
-O                 12      DEP,X     39
-O                 12      CD,X  Z   42
-O                 12      HR,X  M   50
-O                 12N42   AMT1  4   58
-O                 12      AMT2  M   68
-O                         AMT3  M   86
-O                         GROSS M   78
-O                         AMT4  M   94
-O                         AMT5  M  102
-O                         AMT6  M  110
-O*                32N30            113 '401'
-O*                32N30   AMT8  M  122
-O                N30 13 33         110 '*'
-O                N30 13 33STAR     111
-O                N30 13N32DCD,1 Z  113
-O                N30 13N32DAMT,1M  122
-O                 30      AMT7  MB 122
-O                         NET   L  132
-O                 93               132 'D'
-O        E  1     70 30 32
-O                                  113 '401'
-O                         AMT8  MB 122
-O        E  1     71
-O                 12      DEP,X     39
-O                 12      CD,X  Z   42
-O                 12      HR,X  M   50
-O                 12N42   AMT1  4   58
-O                 12      AMT2  M   68
-O                 13 33            110 '*'
-O                 13 33   STAR     111
-O                 13      DCD,D Z  113
-O                 13      DAMT,DM  122
-O        E  1     72
-O                         DEP,1     39
-O                         X     Z   42
-O                         AMT2  M   68
-O                         X     Z  113
-O                         AMT7  MB 122
-O        E  1     80
-O                         X          2
-O                         DDEP,XZ    7
-O                         DDES,X    32
-O                         S1,X  JB  45
-O                         S2,X  JB  56
-O                         S3,X  JB  67
-O                         S4,X  JB  78
-O                         S5,X  J   89
-O                         S6,X  JB 100
-O                         S7,X  J  111
-O                         S8,X  J  122
-O                         S9,X  J  132
-O        E 11     81N89
-O                                   32 'TOTALS'
-O                         T1    JB  45
-O                         T2    JB  56
-O                         T3    JB  67
-O                         T4    JB  78
-O                         T5    JB  89
-O                         T6    JB 100
-O                         T7    JB 111
-O                         T8    JB 122
-O                         T9    JB 132
-O        E 12     81
-O                                   12 'GRAND TOTALS'
-O                                   30 'HOURS'
-O                                   50 'DOLLARS'
-O        E  1     82
-O                         X          2
-O                         PDES,X    20
-O                N89      TH,X  KB  31
-O                 89      GH,X  KB  31
-O                N89      TE,X  JB  51
-O                 89      GE,X  JB  51
-O        E  1     83
-O                         DD,X1     20
-O                N89      TD,X  J   51
-O                 89      GD,X  JB  51
-O        E  1     84
-O                         X          2
-O                         PDDE,X    20
-O                N89      TDD,X J   51
-O                 89      GDD,X JB  51
-O        E  1     85
-O                                   20 'NET             '
-O                N89      TNET  J   51
-O                 89      GNET  JB  51
-O        E  1     85
-O                         DD,8      20
-O                N89      TD,8  J   51
-O                 89      GD,8  JB  51
-O        E  1     85
-O                         DD,9      20
-O                N89      TD,9  J   51
-O                 89      GD,9  JB  51
-O        E  1     85
-O                         DD,10     20
-O                N89      TD,10 J   51
-O                 89      GD,10 JB  51
-O        E  1     85
-O                         DD,11     20
-O                N89      TD,11 J   51
-O                 89      GD,11 JB  51
-O        E  1     85
-O                         DD,12     20
-O                N89      TD,12 J   51
-O                 89      GD,12 JB  51
-O        E  1     85
-O                         DD,13     20
-O                N89      TD,13 J   51
-O                 89      GD,13 JB  51
-O                                   61 'TOTAL'
-O                         FEDFICJ   76
-O        E  2     85
-O                         DD,15     20
-O                         TDIR  J   51
-O        E  2     60
-O                         HDR,13    66
-O                         HDR,14   132
-O        E 12     60
-O                         HDR,15    66
-O                         HDR,16   132
-O        E  1     61
-O                         GL        10 '  -    -  '
-O                N12      GLDESC    45
-O                 12                28 'NOT ON G/L FILE'
-O                         CKDATEY   55
-O                                   63 'P/R'
-O                         CHECK1    71
-O                                   72 '-'
-O                         CHECK     78
-O                N13      GLAMT J   93
-O                 13      GLAMT J  108
-O        E 11     62
-O                         T1    JB  93
-O                         T2    JB 108
-O                 63               128 'OUT OF BALANCE'
 O        E  1             LINE1
 OCORP    E        90
 O                         CHECK    661
@@ -1061,5 +650,3 @@ O                         CHECK1    25
 O                                   26 '-'
 O                         CHECK     32
 O                         GLAMT  B  49P
-
-**    HDR
