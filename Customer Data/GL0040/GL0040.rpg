@@ -290,57 +290,6 @@ CSR                   MOVE *BLANKS   C3
 CSR                   MOVE *BLANKS   C5
 CSR                   MOVE *BLANKS   C6
 CSR
-OSCREEN  E        20
-O                                   K8 'GL004001'
-O                         UDATE Y    8
-O                         HDR1      58
-O                         TIMEX     63 '  .  '
-O                         HDR2     113
-O                    50   GLCO     115
-O        E        21
-O                                   K8 'GL004002'
-O                         UDATE Y    8
-O                         HDR1      58
-O                         TIMEX     63 '  .  '
-O                         HDR2     113
-O                         GLCO     115
-O                         CNAME    155
-O                         BAL   J  170
-O                         C1       214 '    '
-O                         C2       302 '  /  /  '
-O                         C3       357
-O                         C4       434 '    -  '
-O                         C5       544
-O                         C6       808
-O                         C7       962 '      ,   .  -'
-O                         SEQ#     966
-O                         DATE  Z  972
-O                         REF#     977
-O                         ACCT#    983
-O                         AMT      994
-O                         DESC    1018
-O                         DEL     1019
-O                N22      DATA    1019
-O                         DESC
-O                         GLDESC  1051
-O        E        23
-O                                   K8 'GL004003'
-O                         UDATE Y    8
-O                         HDR1      58
-O                         TIMEX     63 '  .  '
-O                         HDR2     113
-O                         GLCO     115
-O                         CNAME    155
-O                         BAL   J  170
-O                         C1       214 '    '
-O                         C2       302 '  /  /  '
-O                         C3       357
-O                         C4       434 '    -  '
-O                         C5       544
-O                         C6       808
-O                         C7       962 '      ,   .  -'
-O                         LINE  Z  966
-O        DR       KG
 OGLTRAN  EADD     25
 O                         GLCO       2
 O                         SEQ#       6
@@ -355,6 +304,3 @@ O                         DATE      18
 O                         REF#      23
 O                         DESC      47
 O                         AMT       53P
-
-O                         DEL       64
-
