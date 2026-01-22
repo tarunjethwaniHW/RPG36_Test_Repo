@@ -20,15 +20,6 @@ I                                        1   40LKEY  L1
 I                                        3   50EMPXXX
 I                                       10  25 CD
 I                                    P  26  49 HR
-I                                    P  50  89 RATE
-I                                    P  90 129 EXT
-I                                      130 161 DEP
-I                                      162 177 DCD
-I                                    P 178 209 DAMT
-I                                    P 210 249 TDED
-I                                      250 2550TCHECK      41
-I                                      256 256 DEL
-I                                      257 257 STAR
 I        NS  02
 IPRMAST  NS
 I                                        1   20ECO
@@ -39,21 +30,6 @@ I                                      116 116 ESEX
 I                                      158 1580EPAY
 I                                    P 163 1672ESAL
 I                                      192 207 ECD
-I                                      208 223 EF
-I                                    P 224 255 EDED
-I                                    P 256 287 EBAL
-I                                    P 378 3790EQWK
-I                                    P 380 469 EYTD
-I                                    P 470 4710EYWK
-I                                      512 512 EDEL
-I                                      513
-I                                      522 538
-I                                      539 539
-I                                      540 540
-I                                      541
-I                                      550 566
-I                                      567 567
-I                                      568 568
 IPREARN  NS
 I                                        3 194 PDES
 I                                    P 195 230 PRT
@@ -164,28 +140,6 @@ C                     SUB  EYTD,11   WORK
 C   11                Z-ADD0         TAX
 C   11                GOTO CSUTA
 C                     SUB  CFUTAL    WORK1
-E*************** INTERCOMPANY ********
-C           IN        COMP 1                        11
-C   11                ADD  TAX2      IG1     92
-C   11                ADD  TAX       IG1
-C   11                ADD  TAX1      IG1
-C           IN        COMP 2                        11
-C   11                ADD  TAX2      IG2     92
-C   11                ADD  TAX       IG2
-C   11                ADD  TAX1      IG2
-C           IN        COMP 4                        11
-C   11                ADD  TAX2      IG4     92
-C   11                ADD  TAX       IG4
-C   11                ADD  TAX1      IG4
-C           IN        COMP 5                        11
-C   11                ADD  TAX2      IG5     92
-C   11                ADD  TAX       IG5
-C   11                ADD  TAX1      IG5
-C           IN        COMP 9                        11
-C   11                ADD  TAX2      IG9     92
-C   11                ADD  TAX       IG9
-C   11                ADD  TAX1      IG9
-E*************************************
 C                     Z-ADDTDED,1    AMT3    72
 C                     Z-ADDTDED,2    AMT4    62
 C                     Z-ADDTDED,3    AMT5    62
@@ -336,77 +290,6 @@ CL1                   MOVE X6        X4      40
 CL1                   Z-ADDGL        XX2     20     11
 CL1N11                MOVE XDEPT     GL
 CL1         X4        COMP 3000                   31
-CL1                   EXSR GLSUB
-C**************** TEST FOR CHILD SUPPORT
-CL1         X         COMP 8                        11
-CL1 11                Z-ADDTDD,X     GLAMT
-CL1 11                EXSR GLSUB
-CL1                   Z-ADDCGL,1     GL
-CL1         BANK      COMP 2                        11
-CL1 11                Z-ADDCGL,9     GL
-CL1         BANK      COMP 4                        11
-CL1 11                Z-ADDCGL,8     GL
-CL1         BANK      COMP 5                        11
-CL1 11                Z-ADDCGL,11    GL
-CL1         X         COMP 8                        11
-CL1 11                Z-SUBTDD,X     GLAMT
-CL1 11                EXSR GLSUB
-CL1         X         COMP 12                   11  11
-CL1N11                ADD  1         X
-CL1N11                GOTO GLDLOP
-CL1                   Z-SUBTD,2      GLAMT
-CL1                   Z-ADDCGL,2     GL
-CL1                   EXSR GLSUB
-CL1                   Z-SUBTD,3      GLAMT
-CL1                   Z-ADDCGL,3     GL
-CL1                   EXSR GLSUB
-CL1                   Z-ADDTD,2      GLAMT
-CL1                   Z-ADDCGL,2     GL
-CL1                   EXSR GLSUB
-CL1                   Z-ADDTD,3      GLAMT
-CL1                   Z-ADDCGL,3     GL
-CL1                   EXSR GLSUB
-CL1                   Z-SUBTD,2      GLAMT
-CL1                   SUB  TD,3
-CL1                   Z-ADDCPTO      GL
-CL1                   EXSR GLSUB
-CC52 CL1                   Z-SUBTD,4      GLAMT
-CL1                   Z-ADDCGL,6     GL
-CL1                   EXSR GLSUB
-CL1         CORP      COMP 30                       11
-CL1N11      CORP      COMP 31                       11
-CL1 11                Z-ADDCGL,9     GL
-CL1 11                Z-ADDTD,4      GLAMT
-CL1 11                Z-ADDCGL,6     GL
-CL1 11                EXSR GLSUB
-CL1         CORP      COMP 30                       11
-CL1N11      CORP      COMP 31                       11
-CL1 11                Z-SUBTD,4      GLAMT
-CL1 11                Z-ADDCGL,1     GL
-CL1 11                EXSR GLSUB
-CL1                   Z-SUBTD,5      GLAMT
-CL1                   Z-ADDCGL,7     GL
-CL1                   EXSR GLSUB
-CL1                   Z-SUBTD,6      GLAMT
-CL1                   Z-ADDCGL,8     GL
-CL1                   EXSR GLSUB
-CL1                   Z-SUBTD,7      GLAMT
-CL1                   Z-ADDCGL,11    GL
-CL1                   EXSR GLSUB
-CL1                   Z-SUBTNET      GLAMT
-CL1                   Z-ADDCGL,1     GL
-CL1         BANK      COMP 2                        11
-CL1 11                Z-ADDCGL,9     GL
-CL1         BANK      COMP 4                        11
-CL1 11                Z-ADDCGL,8     GL
-CL1         BANK      COMP 5                        11
-CL1 11                Z-ADDCGL,11    GL
-CL1                   EXSR GLSUB
-CL1                   Z-SUBS8,1      GLAMT
-CL1                   Z-ADDCGL,4     GL
-CL1                   EXSR GLSUB
-CL1                   Z-SUBS9,1      GLAMT
-CL1                   Z-ADDCGL,5     GL
 CL1                   EXSR GLSUB
 E*************** INTERCOMPANY BANK ***********
 CL1         CORP      COMP 01                       11
